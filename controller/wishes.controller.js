@@ -10,7 +10,14 @@ const getWishes = async (req, res) => {
     } else {
       wishes = await Wishes.find({}).sort({ created_at: -1 });
     }
-    res.status(200).json(wishes);
+    const total = await Wishes.countDocuments({});
+
+    const response = {
+      success: true,
+      data: wishes,
+      total,
+    };
+    res.status(200).json(response);
   } catch (error) {
     res.status(500).json(error);
   }
